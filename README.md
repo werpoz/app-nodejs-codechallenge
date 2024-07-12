@@ -1,82 +1,123 @@
-# Yape Code Challenge :rocket:
+# YAPE CHALLENGE
 
-Our code challenge will let you marvel us with your Jedi coding skills :smile:. 
+## Requirements
 
-Don't forget that the proper way to submit your work is to fork the repo and create a PR :wink: ... have fun !!
+- Node >= 22.2.0 
+- Docker 
 
-- [Problem](#problem)
-- [Tech Stack](#tech_stack)
-- [Send us your challenge](#send_us_your_challenge)
+## Initial setup 
 
-# Problem
+Execute docker for create container 
+  - postgress 
+  - database
+  - kafka
+  - zookeeper 
 
-Every time a financial transaction is created it must be validated by our anti-fraud microservice and then the same service sends a message back to update the transaction status.
-For now, we have only three transaction statuses:
+```sh
+   docker-compose up -d
+ ```
+## Initial microservice 
+  - Microservice Anti fraud
+  - Microservice Transaction
 
-<ol>
-  <li>pending</li>
-  <li>approved</li>
-  <li>rejected</li>  
-</ol>
+### to Transaction 
 
-Every transaction with a value greater than 1000 should be rejected.
-
-```mermaid
-  flowchart LR
-    Transaction -- Save Transaction with pending Status --> transactionDatabase[(Database)]
-    Transaction --Send transaction Created event--> Anti-Fraud
-    Anti-Fraud -- Send transaction Status Approved event--> Transaction
-    Anti-Fraud -- Send transaction Status Rejected event--> Transaction
-    Transaction -- Update transaction Status event--> transactionDatabase[(Database)]
+move to project
+```sh
+   cd transaction
 ```
 
-# Tech Stack
+copy `env.example` file
+```sh
+   cp env.example .env
+```
 
-<ol>
-  <li>Node. You can use any framework you want (i.e. Nestjs with an ORM like TypeOrm or Prisma) </li>
-  <li>Any database</li>
-  <li>Kafka</li>    
-</ol>
+install dependencies
+```sh
+   npm install 
+```
 
-We do provide a `Dockerfile` to help you get started with a dev environment.
+up nest project
+```sh
+   npm run start:dev 
+```
 
-You must have two resources:
+### to Anti fraud 
 
-1. Resource to create a transaction that must containt:
+move to project
+```sh
+   cd anti-fraud
+```
 
+copy `env.example` file
+```sh
+   cp env.example .env
+```
+
+install dependencies
+```sh
+   npm install 
+```
+
+up nest project
+```sh
+   npm run start:dev 
+```
+
+### Documentation API 
+
+you can create a transaction in from curl or Swagger UI in [localhost:3000](http://localhost:3000/api)
+
+Swagger UI :  [localhost:3000](http://localhost:3000/api)
+
+create transaction
+```sh
+curl -X 'POST' \
+  'http://localhost:3000/transaction' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "accountExternalIdDebit": "240e3c1e-f1b6-4610-8ade-f4c151000abb",
+  "accountExternalIdCredit": "821ce7f2-fcc4-42c1-944a-978c3d7af351",
+  "transferType": 1,
+  "value": 1200
+}'
+```
+
+response create transaction
 ```json
 {
-  "accountExternalIdDebit": "Guid",
-  "accountExternalIdCredit": "Guid",
-  "tranferTypeId": 1,
-  "value": 120
+  "transactionExternalId": "08f4358e-ce8a-48fa-8b56-c6395b026dde",
+  "message": "Transaction created successfully"
 }
 ```
 
-2. Resource to retrieve a transaction
+get transaction 
+
+```sh
+curl -X 'GET' \
+  'http://localhost:3000/transaction/08f4358e-ce8a-48fa-8b56-c6395b026dde' \
+  -H 'accept: */*'
+```
+
+response get transaction  
 
 ```json
 {
-  "transactionExternalId": "Guid",
+  "transactionExternalId": "08f4358e-ce8a-48fa-8b56-c6395b026dde",
   "transactionType": {
-    "name": ""
+    "name": 1
   },
   "transactionStatus": {
-    "name": ""
+    "name": "pending"
   },
-  "value": 120,
-  "createdAt": "Date"
+  "value": 1200,
+  "createdAt": "2024-07-12T09:05:11.668Z"
 }
 ```
 
-## Optional
+## Run Test
 
-You can use any approach to store transaction data but you should consider that we may deal with high volume scenarios where we have a huge amount of writes and reads for the same data at the same time. How would you tackle this requirement?
-
-You can use Graphql;
-
-# Send us your challenge
-
-When you finish your challenge, after forking a repository, you **must** open a pull request to our repository. There are no limitations to the implementation, you can follow the programming paradigm, modularization, and style that you feel is the most appropriate solution.
-
-If you have any questions, please let us know.
+```sh
+   npm run test 
+```
