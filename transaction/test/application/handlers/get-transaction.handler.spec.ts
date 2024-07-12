@@ -12,6 +12,7 @@ import { GetTransactionQueryHandler } from 'src/application/handlers/get-transac
 import { GetTransactionQuery } from 'src/application/querys/get-transaction.query';
 import { Transaction } from 'src/domain/aggregates/transaction.aggregate';
 import { TransactionRepository } from 'src/domain/repositories/transaction.repository';
+import { Status } from 'src/shared/constant.shared';
 import { v4 as uuidv4 } from 'uuid';
 
 describe('GetTransactionQueryHandler', () => {
@@ -46,7 +47,7 @@ describe('GetTransactionQueryHandler', () => {
       accountExternalIdCredit: uuidv4(),
       transferType: 1,
       value: 100,
-      status: 'completed',
+      status: Status.APPROVED,
       createdAt: new Date(),
       updatedAt: new Date(),
     };

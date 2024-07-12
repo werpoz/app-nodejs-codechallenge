@@ -12,6 +12,7 @@ import { Transaction } from 'src/domain/aggregates/transaction.aggregate';
 import { UpdateTransactionHandler } from 'src/application/handlers/update-transaction.handler';
 import { UpdateTransactionCommand } from 'src/application/commands/update-transaction.command';
 import { v4 as uuidv4 } from 'uuid';
+import { Status } from 'src/shared/constant.shared';
 
 describe('UpdateTransactionHandler', () => {
   let handler: UpdateTransactionHandler;
@@ -39,7 +40,7 @@ describe('UpdateTransactionHandler', () => {
     const mockTransactionExternalId = uuidv4();
     const command = new UpdateTransactionCommand(
       mockTransactionExternalId,
-      'completed',
+      Status.PENDING,
     );
     const transaction = new Transaction({
       transactionExternalId: mockTransactionExternalId,
@@ -47,7 +48,7 @@ describe('UpdateTransactionHandler', () => {
       accountExternalIdCredit: uuidv4(),
       transferType: 1,
       value: 100,
-      status: 'pending',
+      status: Status.PENDING,
     });
 
     jest.spyOn(repository, 'getTransactionById').mockResolvedValue(transaction);
@@ -60,7 +61,7 @@ describe('UpdateTransactionHandler', () => {
     expect(repository.getTransactionById).toHaveBeenCalledWith(
       mockTransactionExternalId,
     );
-    expect(transaction.getStatus()).toBe('completed');
+    expect(transaction.getStatus()).toBe(Status.PENDING);
     expect(saveSpy).toHaveBeenCalledWith(transaction);
     expect(result).toEqual({
       message: 'Transaction updated successfully',

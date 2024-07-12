@@ -15,6 +15,7 @@ import { TransactionController } from 'src/infrastructure/api/controllers/transa
 import { CreateTransactionDTO } from 'src/infrastructure/api/dtos/create-transaction.dto';
 import { GetTransactionDTO } from 'src/infrastructure/api/dtos/get-transaction.dto';
 import { v4 as uuidv4 } from 'uuid';
+import { Status } from 'src/shared/constant.shared';
 
 describe('TransactionController', () => {
   let controller: TransactionController;
@@ -83,7 +84,7 @@ describe('TransactionController', () => {
 
     const message = {
       transactionExternalId: mockTransactionExternalId,
-      status: 'completed',
+      status: Status.APPROVED,
     };
 
     const command = new UpdateTransactionCommand(
@@ -107,6 +108,9 @@ describe('TransactionController', () => {
 
   it('should get transaction by id', async () => {
     const mockTransactionExternalId = uuidv4();
+    const accountExternalIdDebit = uuidv4();
+    const accountExternalIdCredit = uuidv4();
+
     const params: GetTransactionDTO = {
       transactionExternalId: mockTransactionExternalId,
     };
@@ -117,11 +121,11 @@ describe('TransactionController', () => {
       .spyOn(queryBus, 'execute')
       .mockResolvedValue({
         transactionExternalId: mockTransactionExternalId,
-        accountExternalIdDebit: 'debit123',
-        accountExternalIdCredit: 'credit123',
+        accountExternalIdDebit,
+        accountExternalIdCredit,
         transferType: 1,
         value: 100,
-        status: 'completed',
+        status: Status.APPROVED,
       });
 
     const result = await controller.getTransactionById(params);
@@ -129,11 +133,11 @@ describe('TransactionController', () => {
     expect(queryBusExecuteSpy).toHaveBeenCalledWith(query);
     expect(result).toEqual({
       transactionExternalId: mockTransactionExternalId,
-      accountExternalIdDebit: 'debit123',
-      accountExternalIdCredit: 'credit123',
+      accountExternalIdDebit: accountExternalIdDebit,
+      accountExternalIdCredit: accountExternalIdCredit,
       transferType: 1,
       value: 100,
-      status: 'completed',
+      status: Status.APPROVED,
     });
   });
 });

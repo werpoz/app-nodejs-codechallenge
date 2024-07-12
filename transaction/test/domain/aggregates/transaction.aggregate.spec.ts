@@ -8,6 +8,7 @@
  */
 import { Transaction } from 'src/domain/aggregates/transaction.aggregate';
 import { ITransaction } from 'src/domain/interface/transaction.interface';
+import { Status } from 'src/shared/constant.shared';
 import { v4 as uuidv4 } from 'uuid';
 
 describe('Transaction', () => {
@@ -21,7 +22,7 @@ describe('Transaction', () => {
       accountExternalIdCredit: uuidv4(),
       transferType: 1,
       value: 1000,
-      status: 'pending',
+      status: Status.PENDING,
     };
 
     transaction = new Transaction(transactionData);
@@ -44,7 +45,7 @@ describe('Transaction', () => {
   });
 
   it('should update the status', () => {
-    const newStatus = 'rejected';
+    const newStatus = Status.REJECTED;
     transaction.setStatus(newStatus);
     expect(transaction.getStatus()).toBe(newStatus);
   });
@@ -63,7 +64,7 @@ describe('Transaction', () => {
 
   it('should update the updatedAt date when status changes', () => {
     const initialUpdatedAt = transaction.getCreatedAt();
-    transaction.update({ status: 'rejected' });
+    transaction.update({ status: Status.REJECTED });
     expect(transaction.getUpdateAt()).not.toBe(initialUpdatedAt);
   });
 });

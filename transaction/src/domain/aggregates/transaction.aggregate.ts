@@ -8,6 +8,7 @@
  */
 import { AggregateRoot } from '@nestjs/cqrs/dist';
 import { ITransaction } from '../interface/transaction.interface';
+import { Status } from 'src/shared/constant.shared';
 
 export class Transaction extends AggregateRoot {
   private readonly transactionExternalId: string;
@@ -26,7 +27,7 @@ export class Transaction extends AggregateRoot {
     this.accountExternalIdDebit = transaction.accountExternalIdDebit;
     this.accountExternalIdCredit = transaction.accountExternalIdCredit;
     this.transferType = transaction.transferType;
-    this.status = transaction.status || 'pending';
+    this.status = transaction.status || Status.PENDING;
     this.value = transaction.value;
 
     this.createdAt = new Date();
