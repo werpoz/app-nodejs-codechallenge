@@ -1,3 +1,11 @@
+/**
+ * This file is part of APP NodeJS Code Chanllenge.
+ *
+ * (c) Yape. <e3corpion@gmail.com>.
+ *
+ * This source file is subject to a proprietary license that is bundled
+ * with this source code in the file LICENSE.
+ */
 import { Transaction } from 'src/domain/aggregates/transaction.aggregate';
 import { ITransaction } from 'src/domain/interface/transaction.interface';
 import { v4 as uuidv4 } from 'uuid';

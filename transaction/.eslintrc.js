@@ -29,7 +29,7 @@ module.exports = {
       'block',
       [
         '*',
-        ' * This file is part of APP NodeJS Code Chanllenge.',
+        ' * This file is part of APP NodeJS Code Challenging.',
         ' *',
         ' * (c) Yape. <e3corpion@gmail.com>.',
         ' *',

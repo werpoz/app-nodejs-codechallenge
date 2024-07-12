@@ -6,7 +6,12 @@
  * This source file is subject to a proprietary license that is bundled
  * with this source code in the file LICENSE.
  */
-export class CreateTransactionDTO {
-  transactionExternalId: string;
-  message: string;
+import { IsUUID, IsString } from 'class-validator';
+export class UpdateTransactionDTO {
+  @IsString()
+  @IsUUID()
+  readonly transactionExternalId: string;
+
+  @IsString()
+  readonly status: string;
 }

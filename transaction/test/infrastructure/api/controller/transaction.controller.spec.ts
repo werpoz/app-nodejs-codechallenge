@@ -1,3 +1,11 @@
+/**
+ * This file is part of APP NodeJS Code Chanllenge.
+ *
+ * (c) Yape. <e3corpion@gmail.com>.
+ *
+ * This source file is subject to a proprietary license that is bundled
+ * with this source code in the file LICENSE.
+ */
 import { Test, TestingModule } from '@nestjs/testing';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateTransactionCommand } from 'src/application/commands/create-transaction.command';

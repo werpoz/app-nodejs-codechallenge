@@ -1,3 +1,11 @@
+/**
+ * This file is part of APP NodeJS Code Chanllenge.
+ *
+ * (c) Yape. <e3corpion@gmail.com>.
+ *
+ * This source file is subject to a proprietary license that is bundled
+ * with this source code in the file LICENSE.
+ */
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
