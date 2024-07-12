@@ -53,6 +53,10 @@ export class Transaction extends AggregateRoot {
     return this.createdAt;
   }
 
+  public getUpdateAt(): Date {
+    return this.updatedAt;
+  }
+
   public setStatus(status: string) {
     this.status = status;
     this.updatedAt = new Date();

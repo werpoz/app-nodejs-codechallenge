@@ -1,0 +1,61 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { TransactionRepository } from 'src/domain/repositories/transaction.repository';
+import { Transaction } from 'src/domain/aggregates/transaction.aggregate';
+import { UpdateTransactionHandler } from 'src/application/handlers/update-transaction.handler';
+import { UpdateTransactionCommand } from 'src/application/commands/update-transaction.command';
+import { v4 as uuidv4 } from 'uuid';
+
+describe('UpdateTransactionHandler', () => {
+  let handler: UpdateTransactionHandler;
+  let repository: TransactionRepository;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        UpdateTransactionHandler,
+        {
+          provide: 'TransactionRepository',
+          useValue: {
+            getTransactionById: jest.fn(),
+            saveTransaction: jest.fn(),
+          },
+        },
+      ],
+    }).compile();
+
+    handler = module.get<UpdateTransactionHandler>(UpdateTransactionHandler);
+    repository = module.get<TransactionRepository>('TransactionRepository');
+  });
+
+  it('should update transaction status', async () => {
+    const mockTransactionExternalId = uuidv4();
+    const command = new UpdateTransactionCommand(
+      mockTransactionExternalId,
+      'completed',
+    );
+    const transaction = new Transaction({
+      transactionExternalId: mockTransactionExternalId,
+      accountExternalIdDebit: uuidv4(),
+      accountExternalIdCredit: uuidv4(),
+      transferType: 1,
+      value: 100,
+      status: 'pending',
+    });
+
+    jest.spyOn(repository, 'getTransactionById').mockResolvedValue(transaction);
+    const saveSpy = jest
+      .spyOn(repository, 'saveTransaction')
+      .mockResolvedValue(transaction);
+
+    const result = await handler.execute(command);
+
+    expect(repository.getTransactionById).toHaveBeenCalledWith(
+      mockTransactionExternalId,
+    );
+    expect(transaction.getStatus()).toBe('completed');
+    expect(saveSpy).toHaveBeenCalledWith(transaction);
+    expect(result).toEqual({
+      message: 'Transaction updated successfully',
+    });
+  });
+});
