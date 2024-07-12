@@ -5,7 +5,10 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin'],
+  plugins: [
+    '@typescript-eslint/eslint-plugin',
+    'header',
+  ],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
@@ -20,6 +23,25 @@ module.exports = {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-explicit-any': 'error',
+    'header/header': [
+      'error',
+      'block',
+      [
+        '*',
+        ' * This file is part of APP NodeJS Code Chanllenge.',
+        ' *',
+        ' * (c) Yape. <e3corpion@gmail.com>.',
+        ' *',
+        ' * This source file is subject to a proprietary license that is bundled',
+        ' * with this source code in the file LICENSE.',
+        ' ',
+      ],
+      '1',
+      {
+        lineEndings: 'unix',
+      },
+    ],
+
   },
 };
