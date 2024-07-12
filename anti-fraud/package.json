@@ -1,8 +1,8 @@
 {
   "name": "anti-fraud",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Microservice Anti fraud",
+  "author": "Abel Jean Pool Seminario Leon",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
