@@ -1,5 +1,5 @@
 /**
- * This file is part of APP NodeJS Code Chanllenge.
+ * This file is part of APP NodeJS Code Challenging.
  *
  * (c) Yape. <e3corpion@gmail.com>.
  *
@@ -60,6 +60,6 @@ describe('GetTransactionQueryHandler', () => {
     expect(repository.getTransactionById).toHaveBeenCalledWith(
       mockTransactionExternalId,
     );
-    expect(result).toEqual(GetTransactionByIdDTO.reponse(transaction));
+    expect(result).toEqual(GetTransactionByIdDTO.response(transaction));
   });
 });

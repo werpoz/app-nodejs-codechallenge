@@ -1,8 +1,8 @@
 {
   "name": "transaction",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Service Transaction",
+  "author": "Abel Jean Pool Seminario Leon",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
